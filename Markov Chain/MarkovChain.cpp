@@ -1,45 +1,11 @@
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <string>
-#include <vector>
+﻿#include "MarkovChain.h"
 
-int main()
+void MarkovChain::CreateMarkovChain(std::fstream inputFile, int keyLength)
 {
-    std::fstream inputFile;
-    
     std::string prefix;
     std::string suffix;
-    std::string fileText;
-    std::string outputText;
     std::string buffer;
     int spacePos;
-    int randomNumber;
-    
-    int keyLength;
-    int outputWordLength;
-    
-    std::map<std::string, std::vector<std::string>> prefixSuffixDictionary;
-
-    inputFile.open("inputfile.txt");
-    if(!inputFile.is_open())
-    {
-        printf("Failed to open file.");
-        exit(1);
-    }
-
-    std::cout << "Input desired key length: " << std::endl;
-    std::cin >> keyLength;
-
-    std::cout << "Input desired output length: " << std::endl;
-    std::cin >> outputWordLength;
-
-    if(keyLength > outputWordLength)
-    {
-        printf("Invalid inputs. Exiting program.");
-        exit(1);
-    }
-
     for(int i = 0; i < keyLength; i++)
     {
         inputFile >> buffer;
@@ -56,24 +22,26 @@ int main()
         prefix = prefix.substr(spacePos + 1, prefix.size() - spacePos);
     }
     inputFile.close();
+}
 
+std::string MarkovChain::GenerateMarkovSentences(int keyLength, int outputWordLength)
+{
+    int spacePos;
+    int randomNumber;
     randomNumber = rand() % prefixSuffixDictionary.size();
     auto iterator = prefixSuffixDictionary.begin();
     std::advance(iterator, randomNumber);
-    prefix = iterator->first;
-    outputText = prefix;
+    std::string prefix = iterator->first;
+    std::string outputText = prefix;
     for(int i = 0; i < outputWordLength - keyLength; i++)
     {
         if(prefixSuffixDictionary[prefix].empty())
             break;
-        auto vector = prefixSuffixDictionary[prefix];
-        suffix = vector.at(rand() % vector.size());
+        std::string suffix = prefixSuffixDictionary[prefix].at(rand() % prefixSuffixDictionary[prefix].size());
         outputText += " " + suffix;
         prefix += " " + suffix;
         spacePos = prefix.find_first_of(" ", 0);
         prefix = prefix.substr(spacePos + 1, prefix.size() - spacePos);
     }
-    std::cout << std::endl << std::endl << outputText;
-    
-    return 0;
+    return outputText;
 }

@@ -1,0 +1,14 @@
+﻿#pragma once
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <vector>
+
+class MarkovChain
+{
+public:
+    void CreateMarkovChain(std::fstream inputFile, int keyLength);
+    std::string GenerateMarkovSentences(int keyLength, int outputWordLength);
+private:
+    std::map<std::string, std::vector<std::string>> prefixSuffixDictionary;
+};
