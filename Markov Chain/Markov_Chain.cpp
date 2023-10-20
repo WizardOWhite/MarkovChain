@@ -11,11 +11,13 @@ int main()
     std::string prefix;
     std::string suffix;
     std::string fileText;
+    std::string outputText;
     std::string buffer;
     int spacePos;
+    int randomNumber;
     
-
     int keyLength;
+    int outputWordLength;
     
     std::map<std::string, std::vector<std::string>> prefixSuffixDictionary;
 
@@ -28,6 +30,9 @@ int main()
 
     std::cout << "Input desired key length: " << std::endl;
     std::cin >> keyLength;
+
+    std::cout << "Input desired output length: " << std::endl;
+    std::cin >> outputWordLength;
 
     for(int i = 0; i < keyLength; i++)
     {
@@ -44,10 +49,25 @@ int main()
         prefix = prefix.substr(spacePos + 1, prefix.size() - spacePos);
         prefix += " " + suffix;
     }
-
     inputFile.close();
 
-    
+    randomNumber = rand() % prefixSuffixDictionary.size();
+    auto iterator = prefixSuffixDictionary.begin();
+    std::advance(iterator, randomNumber);
+    prefix = iterator->first;
+    outputText = prefix;
+    for(int i = 0; i < outputWordLength - keyLength; i++)
+    {
+        if(prefixSuffixDictionary[prefix].empty())
+            break;
+        auto vector = prefixSuffixDictionary[prefix];
+        suffix = vector.at(rand() % vector.size());
+        outputText += " " + suffix;
+        spacePos = prefix.find_first_of(" ", 0);
+        prefix = prefix.substr(spacePos + 1, prefix.size() - spacePos);
+        prefix += " " + suffix;
+    }
+    std::cout << std::endl << std::endl << outputText;
     
     return 0;
 }
