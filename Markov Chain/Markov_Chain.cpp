@@ -34,6 +34,12 @@ int main()
     std::cout << "Input desired output length: " << std::endl;
     std::cin >> outputWordLength;
 
+    if(keyLength > outputWordLength)
+    {
+        printf("Invalid inputs. Exiting program.");
+        exit(1);
+    }
+
     for(int i = 0; i < keyLength; i++)
     {
         inputFile >> buffer;
@@ -45,9 +51,9 @@ int main()
     {
         prefixSuffixDictionary[prefix].push_back(suffix);
         std::cout << "Prefix: " << prefix << " || Suffix: " + suffix << std::endl;
+        prefix += " " + suffix;
         spacePos = prefix.find_first_of(" ", 0);
         prefix = prefix.substr(spacePos + 1, prefix.size() - spacePos);
-        prefix += " " + suffix;
     }
     inputFile.close();
 
@@ -63,9 +69,9 @@ int main()
         auto vector = prefixSuffixDictionary[prefix];
         suffix = vector.at(rand() % vector.size());
         outputText += " " + suffix;
+        prefix += " " + suffix;
         spacePos = prefix.find_first_of(" ", 0);
         prefix = prefix.substr(spacePos + 1, prefix.size() - spacePos);
-        prefix += " " + suffix;
     }
     std::cout << std::endl << std::endl << outputText;
     
