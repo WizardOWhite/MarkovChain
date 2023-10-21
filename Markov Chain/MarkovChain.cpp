@@ -1,6 +1,6 @@
 ﻿#include "MarkovChain.h"
 
-void MarkovChain::CreateMarkovChain(std::fstream inputFile, int keyLength)
+void MarkovChain::CreateMarkovChain(std::fstream& inputFile, int keyLength)
 {
     std::string prefix;
     std::string suffix;
@@ -21,7 +21,6 @@ void MarkovChain::CreateMarkovChain(std::fstream inputFile, int keyLength)
         spacePos = prefix.find_first_of(" ", 0);
         prefix = prefix.substr(spacePos + 1, prefix.size() - spacePos);
     }
-    inputFile.close();
 }
 
 std::string MarkovChain::GenerateMarkovSentences(int keyLength, int outputWordLength)

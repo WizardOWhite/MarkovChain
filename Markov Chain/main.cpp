@@ -39,7 +39,8 @@ int main()
         exit(1);
     }
 
-    mc.CreateMarkovChain(std::move(inputFile), keyLength);
+    mc.CreateMarkovChain(inputFile, keyLength);
+    inputFile.close();
     outputText = mc.GenerateMarkovSentences(keyLength, outputWordLength);
     std::cout << std::endl << std::endl << outputText;
     
