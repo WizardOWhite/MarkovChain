@@ -12,11 +12,15 @@ int main()
 
     int keyLength;
     int outputWordLength;
-    
-    MarkovChain mc;
 
     std::cout << "Enter input file name: " << std::endl;
     std::cin >> inputFileName;
+
+    std::cout << "Input desired key length: " << std::endl;
+    std::cin >> keyLength;
+
+    std::cout << "Input desired output length: " << std::endl;
+    std::cin >> outputWordLength;
 
     inputFile.open(inputFileName);
     if(!inputFile.is_open())
@@ -25,18 +29,13 @@ int main()
         exit(1);
     }
 
-    std::cout << "Input desired key length: " << std::endl;
-    std::cin >> keyLength;
-
-    std::cout << "Input desired output length: " << std::endl;
-    std::cin >> outputWordLength;
-
     if(keyLength > outputWordLength || keyLength < 1 || outputWordLength < 1)
     {
         printf("Invalid inputs. Exiting program.");
         exit(1);
     }
 
+    MarkovChain mc;
     mc.CreateMarkovChain(inputFile, keyLength);
     inputFile.close();
     outputText = mc.GenerateMarkovSentences(keyLength, outputWordLength);

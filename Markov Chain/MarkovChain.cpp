@@ -6,11 +6,13 @@ void MarkovChain::CreateMarkovChain(std::fstream& inputFile, int keyLength)
     std::string suffix;
     std::string buffer;
     int spacePos;
+    
     for(int i = 0; i < keyLength; i++)
     {
         inputFile >> buffer;
         prefix += buffer + " ";
     }
+    
     prefix = prefix.substr(0, prefix.size() - 1);
 
     while(inputFile >> suffix)
